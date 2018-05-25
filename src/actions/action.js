@@ -2,6 +2,7 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS';
 export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS';
+export const SELECT_CATEGORY = 'SELECT_CATEGORY';
 
 export const getCategories = () => {
   return {
@@ -23,6 +24,16 @@ export const addCategory = (category) => {
         url: '/api/categories',
         data: category
       }
+    }
+  }
+};
+
+
+export const selectCategory = (categoryId) => {
+  return {
+    type: SELECT_CATEGORY,
+    payload: {
+      selectedCategoryId: categoryId
     }
   }
 };

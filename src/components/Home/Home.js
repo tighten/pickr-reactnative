@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import {SafeAreaView, Text, Picker, Button} from 'react-native';
 import {connect} from 'react-redux';
-import {getCategories} from "../../actions/action";
+import {getCategories, selectCategory} from "../../actions/action";
 
 const styles = StyleSheet.create({
   container: {
@@ -24,14 +24,6 @@ const styles = StyleSheet.create({
 
 
 class Home extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      selectedCategory: null
-    };
-  }
-
   componentDidMount() {
     this.props.getCategories();
   }
@@ -52,11 +44,9 @@ class Home extends React.Component {
         <Text style={styles.header}>Pickr</Text>
 
         <Picker
-          selectedValue={this.state.selectedCategory}
+          selectedValue={this.props.selectedCategoryId}
           style={styles.picker}
-          onValueChange={itemValue =>
-            this.setState({selectedCategory: itemValue})
-          }
+          onValueChange={itemValue => this.props.selectCategory(itemValue)}
         >
           {this.renderPickerItems()}
         </Picker>
@@ -64,13 +54,7 @@ class Home extends React.Component {
         <Button
           title="Pick Something!"
           onPress={() =>
-            this.props.navigation.navigate('PickOne', {
-              category: this.state.categories.find(category => {
-                return (
-                  category.id === this.state.selectedCategory
-                );
-              })
-            })
+            this.props.navigation.navigate('PickOne')
           }
         />
         <Button
@@ -92,12 +76,14 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    categories: state.categories,
+    selectedCategoryId: state.selectedCategoryId
   };
 };
 
 const mapDispatchToProps = {
-  getCategories
+  getCategories,
+  selectCategory
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
