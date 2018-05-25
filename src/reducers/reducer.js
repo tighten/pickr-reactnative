@@ -1,14 +1,16 @@
-import {GET_CATEGORIES, GET_CATEGORIES_SUCCESS} from "../actions/action";
+import {
+  ADD_CATEGORY_SUCCESS,
+  GET_CATEGORIES_SUCCESS
+} from "../actions/action";
 
 const initialState = {
   categories: [],
-  loading: false
 };
 
 export default reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CATEGORIES:
-      return {...state, loading: true};
+    case ADD_CATEGORY_SUCCESS:
+      return {...state, categories: state.categories.concat(action.payload.data)};
     case GET_CATEGORIES_SUCCESS:
       return {...state, categories: action.payload.data};
     default:

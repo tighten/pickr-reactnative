@@ -14,6 +14,15 @@ export const getCategories = () => {
   }
 };
 
-export const addCategory = () => {
-
+export const addCategory = (category) => {
+  return {
+    type: ADD_CATEGORY,
+    payload: {
+      request: {
+        method: 'POST',
+        url: '/api/categories',
+        data: category
+      }
+    }
+  }
 };
