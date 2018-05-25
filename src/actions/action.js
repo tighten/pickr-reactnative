@@ -1,5 +1,7 @@
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS';
+export const ADD_CATEGORY = 'ADD_CATEGORY';
+export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS';
 
 export const getCategories = () => {
   return {
@@ -10,4 +12,8 @@ export const getCategories = () => {
       }
     }
   }
+};
+
+export const addCategory = () => {
+
 };
