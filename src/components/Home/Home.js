@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
 
 class Home extends React.Component {
   componentDidMount() {
-    this.props.getCategories();
+    this.props.getCategories()
+      .then(() => this.props.selectCategory(this.props.categories[0].id));
   }
 
   renderPickerItems() {
@@ -39,12 +40,20 @@ class Home extends React.Component {
   }
 
   render() {
+    if (! this.props.selectedCategory) {
+      return (
+        <SafeAreaView>
+          <Text>Loading...</Text>
+        </SafeAreaView>
+      );
+    }
+
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Pickr</Text>
 
         <Picker
-          selectedValue={this.props.selectedCategoryId}
+          selectedValue={this.props.selectedCategory.id}
           style={styles.picker}
           onValueChange={itemValue => this.props.selectCategory(itemValue)}
         >
@@ -77,7 +86,7 @@ class Home extends React.Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories,
-    selectedCategoryId: state.selectedCategoryId
+    selectedCategory: state.selectedCategory
   };
 };
 
