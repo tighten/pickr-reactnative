@@ -1,69 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
+import Home from './src/components/Home/Home';
+import AddCategory from './src/components/Categories/AddCategory';
+
+const RootStack = createStackNavigator(
+  {
+    Home,
+    AddCategory
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      text: ''
-    }
-  }
-
-  createCategory() {
-    fetch('http://pickr-api.test/api/categories', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.text,
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-      });
-  }
-
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Add a new category</Text>
-
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({text})}
-          placeholder="Category Name"
-          value={this.state.text}
-        />
-
-        <Button
-          onPress={() => this.createCategory()}
-          title="Add"
-          accessibilityLabel="Add a new category"
-        />
-
-      </View>
-    );
+    return <RootStack />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    fontSize: 20
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 250
-  }
-});
