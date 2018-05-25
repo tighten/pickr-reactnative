@@ -23,7 +23,7 @@ export default class AddCategory extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        this.props.navigation.navigate('Home');
       });
   }
 
