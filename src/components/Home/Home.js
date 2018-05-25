@@ -1,36 +1,42 @@
 import {StyleSheet} from "react-native";
 import React from "react";
 import { SafeAreaView, Text, Picker, Button } from 'react-native';
+import { connect } from 'react-redux';
+import { getCategories } from "../../actions/action";
 
-export default class Home extends React.Component {
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    alignContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: '100%'
+  },
+  header: {
+    fontSize: 30,
+    paddingTop: 80
+  },
+  picker: {
+    height: 200,
+    width: 200
+  }
+});
+
+class Home extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      categories: [],
       selectedCategory: null
     }
   }
 
   componentDidMount() {
-    fetch('http://pickr-api.test/api/categories', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          categories: responseJson,
-          selectedCategory: responseJson[0].id
-        });
-      });
+    this.props.getCategories();
   }
 
   renderPickerItems() {
-    return this.state.categories.map(category => {
+    return this.props.categories.map(category => {
       return <Picker.Item
         label={ category.name }
         value={ category.id }
@@ -63,20 +69,14 @@ export default class Home extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignContent: 'center',
-    flexDirection: 'column',
-    alignItems: 'center',
-    height: '100%'
-  },
-  header: {
-    fontSize: 30,
-    paddingTop: 80
-  },
-  picker: {
-    height: 200,
-    width: 200
-  }
-});
+const mapStateToProps = state => {
+  return {
+    categories: state.categories
+  };
+};
+
+const mapDispatchToProps = {
+  getCategories
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
